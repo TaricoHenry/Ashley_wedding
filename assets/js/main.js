@@ -1,9 +1,26 @@
-document.getElementById("button-toggle").addEventListener("change", () => {
-    //document.getElementById("attendance").classList.toggle("toggled")
-    document.getElementById("questions").classList.toggle("toggled");
-    document.getElementById("main").classList.toggle("toggled");
+var show;
 
-})
+function startLoad() {
+  show = setTimeout(showPage, 1000);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("content").style.display = "flex";
+}
+
+const observer = new IntersectionObserver((entries)=>{
+    entries.forEach((entry)=>{
+        if (entry.isIntersecting) {
+            console.log(entry.target)
+            entry.target.classList.add("appear")
+        }
+    })
+},{})
+
+const animElements = document.querySelectorAll(".fadein")
+animElements.forEach(el => observer.observe(el))
+
 function toggle() {
     var el = window.event.target;
     if (el.value == "Click Here") {
@@ -24,5 +41,63 @@ function toggle() {
     }
 }
 
+async function submit() {
 
+    
+    let params = new URLSearchParams(document.location.search);
+    let token = params.get("token");
+    const url = ('https://us-central1-ash-wedding.cloudfunctions.net:443/api/v1/token/' + token +'/reply');
+
+    const rsvp = document.getElementById("button-toggle").value;
+    console.log(rsvp);
+    const allergyDescription = document.getElementById("allergies").value;
+    console.log(allergyDescription);
+    let allergies = false;
+
+    const negatives = new Set ([
+        "no",
+        "nope",
+        "nah",
+        "nawh",
+        "no allergies",
+        "not allergic"
+    ])
+
+    if ( negatives.has(allergyDescription.toLowerCase()) || allergyDescription == null) {
+        allergies = false;
+    }
+    else {
+        allergies = true;
+    }
+    console.log(allergies);
+
+    const songRequest = document.getElementById("song").value;
+    console.log(songRequest);
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+    
+            body: JSON.stringify({
+                rsvp: "yes",
+                allergies: allergies,
+                allergyDescription: allergyDescription,
+                songRequest: songRequest
+            })
+        })
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(result);
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
 
