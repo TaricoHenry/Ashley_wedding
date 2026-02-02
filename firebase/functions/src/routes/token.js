@@ -14,6 +14,7 @@ const { rateLimit } = require("../middleware/rateLimit");
 const { db, firestoreRetrieve } = require("../services/firestore");
 const { FieldValue } = require("firebase-admin/firestore");
 const { validateRsvpPayload, normalizeRsvpPayload } = require("../utils/rsvp");
+const { generateToken6 } = require("../utils/token");
 
 const router = express.Router();
 
@@ -85,10 +86,10 @@ router.get("/token/:tokenId/resolve", async (req, res) => {
  * - Returns 410 if token exists but was already used
  * - Writes response as responses/{token} to avoid guestName collisions
  */
-router.post("/token/:tokenId/reply",
+router.post("/token/reply",
   rateLimit({ windowMs: 5 * 60_000, max: 10, keyPrefix: "reply" }),
   async (req, res) => {
-    const token = req.params.tokenId;
+    const token = generateToken6();
 
     // Normalize the body first
     req.body = normalizeRsvpPayload(req.body);
@@ -107,10 +108,13 @@ router.post("/token/:tokenId/reply",
     }
 
     // Grab the values from the request body
-    const { rsvp, allergies, allergyDescription, songRequest } = req.body;
+    const { name, rsvp, allergies, allergyDescription, songRequest } = req.body;
 
     // Retrieve the token record status
-    const tokenRecord = await getTokenStatus(token);
+
+    /*
+   
+   const tokenRecord = await getTokenStatus(token);
 
     // Token doesn't exist
     if (tokenRecord.status != 200) {
@@ -127,31 +131,29 @@ router.post("/token/:tokenId/reply",
     }
 
     // Token is valid: safe to accept RSVP
-    const { guestName, route } = tokenRecord.body;
+    const { guestName, route } = tokenRecord.body;*/
 
     const data = {
-      token,
-      guestName,
+      name,
       rsvp,
-      route,
       allergies,
       allergyDescription,
       songRequest,
       submittedAt: FieldValue.serverTimestamp(),
     };
 
-    logger.debug("Prepared RSVP data for write", { token, route });
+    //logger.debug("Prepared RSVP data for write", { token, route });
 
     try {
       // Store by token to avoid guestName collisions
       await db.collection("responses").doc(token).set(data, { merge: true });
 
       // Mark invite as used
-      await db.collection("invites").doc(tokenRecord.Id).update({
+      /*await db.collection("invites").doc(tokenRecord.Id).update({
         usedAt: FieldValue.serverTimestamp(),
-      });
+      });*/
 
-      logger.info("RSVP saved and token marked used", { token, guestName });
+      //logger.info("RSVP saved and token marked used", { name });
 
       res.status(201).send({
         recordId: token,
