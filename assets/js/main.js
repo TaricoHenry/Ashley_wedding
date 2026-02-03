@@ -76,6 +76,8 @@ async function submit() {
         let songRequest = document.getElementById("song").value ? document.getElementById("song").value : "-" ;
         console.log(songRequest);
         try {
+            var button = window.event.target;
+            button.innerText = "Submitting..."
             const response = await fetch(url, {
                 method: "POST",
 
@@ -100,7 +102,7 @@ async function submit() {
             console.log(result);
             setTimeout(() => {
                 window.location.replace(window.location.href + "thank-you");
-            }, 2000);
+            }, 1500);
 
         } catch (error) {
             console.error(error.message);
