@@ -1,7 +1,7 @@
 var show;
 
 function startLoad() {
-  show = setTimeout(showPage, 1000);
+  show = setTimeout(showPage, 5000);
 }
 
 function showPage() {
@@ -43,13 +43,12 @@ function toggle() {
 
 async function submit() {
 
-    
-    let params = new URLSearchParams(document.location.search);
-    let token = params.get("token");
-    const url = ('https://us-central1-ash-wedding.cloudfunctions.net:443/api/v1/token/' + token +'/reply');
+    const url = ('https://us-central1-ash-wedding.cloudfunctions.net:443/api/v1/token/reply');
 
     const rsvp = document.getElementById("button-toggle").value;
     console.log(rsvp);
+    const name = document.getElementById("name").value;
+    console.log(name);
     const allergyDescription = document.getElementById("allergies").value;
     console.log(allergyDescription);
     let allergies = false;
@@ -82,7 +81,8 @@ async function submit() {
             },
     
             body: JSON.stringify({
-                rsvp: "yes",
+                name: name,
+                rsvp: rsvp,
                 allergies: allergies,
                 allergyDescription: allergyDescription,
                 songRequest: songRequest
