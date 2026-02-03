@@ -45,59 +45,68 @@ async function submit() {
 
     const url = ('https://us-central1-ash-wedding.cloudfunctions.net:443/api/v1/token/reply');
 
-    const rsvp = document.getElementById("button-toggle").value;
+    let rsvp = document.getElementById("button-toggle").value;
     console.log(rsvp);
-    const name = document.getElementById("name").value;
+    let name = document.getElementById("name").value;
     console.log(name);
-    const allergyDescription = document.getElementById("allergies").value;
-    console.log(allergyDescription);
-    let allergies = false;
 
-    const negatives = new Set ([
-        "no",
-        "nope",
-        "nah",
-        "nawh",
-        "no allergies",
-        "not allergic"
-    ])
+    if (name != "") {
+        let allergyDescription = document.getElementById("allergies").value;
+        console.log(allergyDescription);
+        let allergies = false;
 
-    if ( negatives.has(allergyDescription.toLowerCase()) || allergyDescription == null) {
-        allergies = false;
-    }
-    else {
-        allergies = true;
-    }
-    console.log(allergies);
+        const negatives = new Set ([
+            "no",
+            "nope",
+            "nah",
+            "nawh",
+            "no allergies",
+            "not allergic"
+        ])
 
-    const songRequest = document.getElementById("song").value;
-    console.log(songRequest);
-    try {
-        const response = await fetch(url, {
-            method: "POST",
+        if ( negatives.has(allergyDescription.toLowerCase()) || allergyDescription == "") {
+            allergies = false;
+            allergyDescription = "-";
+        }
+        else {
+            allergies = true;
+        }
+        console.log(allergies);
 
-            headers: {
-                "Content-Type": "application/json",
-            },
-    
-            body: JSON.stringify({
-                name: name,
-                rsvp: rsvp,
-                allergies: allergies,
-                allergyDescription: allergyDescription,
-                songRequest: songRequest
+        let songRequest = document.getElementById("song").value ? document.getElementById("song").value : "-" ;
+        console.log(songRequest);
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                },
+        
+                body: JSON.stringify({
+                    name: name,
+                    rsvp: rsvp,
+                    allergies: allergies,
+                    allergyDescription: allergyDescription,
+                    songRequest: songRequest
+                })
             })
-        })
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            setTimeout(() => {
+                window.location.replace(window.location.href + "thank-you");
+            }, 2000);
+
+        } catch (error) {
+            console.error(error.message);
         }
 
-        const result = await response.json();
-        console.log(result);
-
-    } catch (error) {
-        console.error(error.message);
     }
+
 }
 
