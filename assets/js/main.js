@@ -1,4 +1,5 @@
 var show;
+const rsvp = "no"
 
 function startLoad() {
   show = setTimeout(showPage, 5000);
@@ -23,21 +24,19 @@ animElements.forEach(el => observer.observe(el))
 
 function toggle() {
     var el = window.event.target;
-    if (el.value == "Click Here") {
-        //document.getElementsByClassName("questions")[0].classList.toggle("toggled");  
-        document.getElementsByClassName("main")[0].classList.toggle("toggled");  
-        document.getElementsByClassName("questions")[0].classList.toggle("yes");
-        el.value = "Yes";    
-    }
-    else if (el.value == "No") {
-        el.value = "Yes";
-        document.getElementsByClassName("questions")[0].classList.toggle("yes");
-        document.getElementsByClassName("questions")[0].classList.toggle("no");
+    document.getElementsByClassName("main")[0].style.transform= "translateY(0px)";
+    var q = document.getElementsByClassName("questions")[0]
+    if (el.value == "Yes") {
+        q.classList.add("yes");
+        q.classList.remove("no");
+        this.rsvp = "yes";
+        
     }
     else {
-        el.value = "No";
-        document.getElementsByClassName("questions")[0].classList.toggle("yes");
-        document.getElementsByClassName("questions")[0].classList.toggle("no");
+        q.classList.add("no");
+        q.classList.remove("yes");
+        this.rsvp = "no";
+        //document.getElementsByClassName("questions")[0].classList.toggle("no");
     }
 }
 
@@ -45,8 +44,7 @@ async function submit() {
 
     const url = ('https://us-central1-ash-wedding.cloudfunctions.net:443/api/v1/token/reply');
 
-    let rsvp = document.getElementById("button-toggle").value;
-    console.log(rsvp);
+    console.log(this.rsvp);
     let name = document.getElementById("name").value;
     console.log(name);
 
@@ -87,7 +85,7 @@ async function submit() {
         
                 body: JSON.stringify({
                     name: name,
-                    rsvp: rsvp,
+                    rsvp: this.rsvp,
                     allergies: allergies,
                     allergyDescription: allergyDescription,
                     songRequest: songRequest

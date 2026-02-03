@@ -4,7 +4,7 @@ title: Ashley & Navin
 ---
 <body onload="startLoad()">
     <div id="loader">
-        <video width="100%" height="auto" autoplay muted>
+        <video width="100%" height="auto" playsinline autoplay muted>
             <source src="./assets/an-black-vid.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video> 
@@ -76,12 +76,18 @@ title: Ashley & Navin
                                 Dinner to follow at 19:00 hrs
                             </p>
                             <p class="sage">
-                                RSVP by <b>February 14, 2026</b>
+                                RSVP by <b>February 28, 2026</b>
                             </p>
                             <!--
                             <div class="divider_1"></div>
                             -->
-                            <input id="button-toggle" type="button" class="press" value="Click Here" onclick="toggle()"/>
+                            <p class="sage">
+                                Attending?
+                            </p>
+                            <div>
+                                <input id="button-toggle" type="button" class="press" value="Yes" onclick="toggle()"/>
+                                <input id="button-toggle" type="button" class="press" value="No" onclick="toggle()"/>
+                            </div>
                         </div>
                     </div>
 
