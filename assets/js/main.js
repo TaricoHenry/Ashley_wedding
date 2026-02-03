@@ -53,7 +53,7 @@ async function submit() {
     if (name != "") {
         let allergyDescription = document.getElementById("allergies").value;
         console.log(allergyDescription);
-        let allergies = false;
+        let allergies = "no";
 
         const negatives = new Set ([
             "no",
@@ -65,11 +65,11 @@ async function submit() {
         ])
 
         if ( negatives.has(allergyDescription.toLowerCase()) || allergyDescription == "") {
-            allergies = false;
+            allergies = "no";
             allergyDescription = "-";
         }
         else {
-            allergies = true;
+            allergies = "yes";
         }
         console.log(allergies);
 
