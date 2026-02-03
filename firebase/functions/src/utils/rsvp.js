@@ -21,9 +21,9 @@ function validateRsvpPayload(body = {}) {
     return { status: 400, message: "Invalid RSVP value. Must be 'yes' or 'no'." };
   }
 
-  // allergies must be boolean if provided
-  if (allergies !== undefined && typeof allergies !== "boolean") {
-    return { status: 400, message: "Allergies must be a boolean value." };
+  // allergies must be be "yes" or "no" if provided
+  if (allergies !== undefined && !["yes", "no"].includes(allergies)) {
+    return { status: 400, message: "Invalid Allergies value. Must be 'yes' or 'no'." };
   }
 
   // allergyDescription required only when allergies === true

@@ -8,6 +8,7 @@ const newRecordwrittenScussfully = "Record written successfully to firestore db"
 const recordWriteNotSuncessful = "Record NOT written to firestore db";
 const inviteBaseUrl= "https://ash-wedding/token";
 const replyPayloadAllowedKeys = [
+    "name",
     "rsvp",
     "allergies",
     "allergyDescription",
