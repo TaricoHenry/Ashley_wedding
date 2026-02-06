@@ -101,7 +101,7 @@ i {
     opacity: 0.5;
     margin-top: -3em;
     margin-bottom: 2em;
-    color: $colour-c;
+    color: #C6A15A6E;
   }
 
 .name-section {
@@ -232,7 +232,7 @@ i {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   background-color: $colour-a;
@@ -255,7 +255,7 @@ i {
   h2 {
     writing-mode: sideways-lr;
     font-family: "AngeleRegular";
-    font-size: 10em;
+    font-size: 8em;
     line-height: 1.2em;
     margin: 0;
     padding: 0;
@@ -275,12 +275,8 @@ i {
   }
 
   .cards {
-    /*
-    display: inherit;
-    flex-direction: column;
-    justify-content: space-around;
-    */
     width: 80%;
+    max-width: 1200px;
   }
   
   .card {
@@ -291,11 +287,12 @@ i {
     justify-content: space-between;
     align-items: center;
     padding: 2em 5em 2em 0em;
-    margin: 0 2em 0 2em;
+    margin: 0 auto 0 auto;
 
     width: 80%;
-    min-height: 360px;
-    min-width: 400px;
+    min-height: 300px;
+    min-width: 320px;
+    max-width: 900px;
     z-index: 2;
     overflow:visible;
 
@@ -316,16 +313,16 @@ i {
   .main {
     align-items: center;
     justify-content: center;
-    transform: translateY(150px);
+    transform: translateY(120px);
     transition: transform 0.25s;
   }
 
   .questions {
     z-index: 1;
     font-size: 1em;
-    transform: translateY(-210px);
+    transform: translateY(-180px);
     transition: transform 0.3s;
-    border-left: 6em $colour-d solid;
+    border-left: 5em $colour-d solid;
 
     display: flex;
     flex-direction: column;
@@ -351,7 +348,7 @@ i {
   }
 
   .no {
-    transform: translateY(-200px);
+    transform: translateY(-40%);
     //transition: translate 2s;
     p {
       visibility: visible;
@@ -496,7 +493,7 @@ i {
     z-index: 1;
 
     img {
-      height: 6em;
+      height: 8em;
     }
 
   }
@@ -536,8 +533,20 @@ i {
 
   }
   .rsvp-section {
+    p {
+      font-size: 1.75em;
+    }
+    h1 {
+      font-size: 11em;
+    }
     .card {
       padding-right: 2em;
+    }
+    .questions {
+      border-left: 8.5em $colour-d solid;
+      input, label {
+        font-size: 1.5em;
+      }
     }
 
   }
@@ -569,21 +578,24 @@ i {
     .card {
       padding: 1em 1em 1em 0em;
       margin: 0em;
-      width: 80%;
+      width: 100%;
 
       h2 {
-        font-size: 5em;
+        font-size: 15vw;
       }
 
       h3 {
         font-size: 1.2em;
       }
       p {
-        font-size: 1em;
+        font-size: 2.5vw;
       }
     }
     .questions {
       margin: 0;
+      label, input {
+        font-size: 2.75vw;
+      }
     }
   }
 }
