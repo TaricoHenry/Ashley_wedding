@@ -99,7 +99,7 @@ async function submit() {
             const result = await response.json();
             console.log(result);
             setTimeout(() => {
-                window.location.replace(window.location.href + "thank-you");
+                window.location.replace("https://www.ashley-and-navin-2026.com/thank-you");
             }, 1500);
 
         } catch (error) {
